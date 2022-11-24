@@ -1,7 +1,7 @@
 <?php
-/*include_once "Videoclub.php"; // No incluimos nada más
+include_once "Videoclub.php"; // No incluimos nada más
 
-$vc = new Videoclub("Severo 8A"); 
+$vc = new Videoclub("Severo 8A");
 
 //voy a incluir unos cuantos soportes de prueba 
 $vc->incluirJuego("God of War", 19.99, "PS4", 1, 1); 
@@ -29,4 +29,4 @@ $vc->alquilaSocioProducto(1,2);
 $vc->alquilaSocioProducto(1,6); 
 
 //listo los socios 
-$vc->listarSocios();*/
+$vc->listarSocios();

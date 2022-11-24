@@ -42,7 +42,7 @@ class Cliente
         return $this->numSoportesAlquilados;
     }
 
-
+    // comprueba si es posible alquilar un soporte y si lo es lo añade al array soportesAlquilados (lo alquila)
     public function alquilar(Soporte $s): bool{
         if(!$this->tieneAlquilado($s) && $this->numSoportesAlquilados < $this->maxAlquilerConcurrente){
             $this->numSoportesAlquilados++;
@@ -56,6 +56,7 @@ class Cliente
         }
     }
 
+    // comprueba si el parámetro $s está alquilado o no
     public function tieneAlquilado(Soporte $s): bool{
         if (in_array($s, $this->soportesAlquilados)) {
             return true;
@@ -64,13 +65,14 @@ class Cliente
         }
     }
 
+    //
     public function devolver(int $numSoporte): bool{
         echo "<br>";
-        foreach ($this->soportesAlquilados as $obj) {
+        foreach ($this->soportesAlquilados as $key => $obj) {
             if($obj->getNumero()==$numSoporte){
                 echo "<br>El soporte estaba alquilado";
                 $this->numSoportesAlquilados--;
-                unset($this->soportesAlquilados[array_search($obj,$this->soportesAlquilados)]);
+                unset($this->soportesAlquilados[$key]);
                 echo "<br>El soporte ha sido devuelto con éxito";
                 return true;
             }
