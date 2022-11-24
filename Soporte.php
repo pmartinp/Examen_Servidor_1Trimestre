@@ -37,8 +37,9 @@ class Soporte
                 return $this->numero;
         }
 
+        // Muestra un resumen de los atributos de la clase
         public function muestraResumen()
         {
-                echo "<br>Titulo: ".$this->titulo."<br>Número: ".$this->numero."<br>Precio: ".$this->precio."€";
+                echo "<br>Titulo: ".$this->titulo."<br>Número: ".$this->numero."<br>Precio: ".$this->precio."€"."<br>Precio con IVA: ".$this->getPrecioConIva()."€";
         }
 }

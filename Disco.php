@@ -5,7 +5,6 @@ include_once("Soporte.php");
 class Disco extends Soporte
 {
 
-
     public function __construct(
         string $titulo,
         int $numero,
@@ -16,9 +15,10 @@ class Disco extends Soporte
         parent::__construct($titulo, $numero, $precio);
     }
 
+    // Muestra un resumen de los atributos de la clase
     public function muestraResumen()
     {
         parent::muestraResumen();
-        echo "<br>Idiomas: ".$this->idiomas."<br>Formato de Pantalla: ".$this->formatoPantalla."";
+        echo "<br>Idiomas: ".$this->idiomas."<br>Formato de Pantalla: ".$this->formatoPantalla;
     }
 }
