@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
-
-class Soporte
+include_once("Resumible.php");
+abstract class Soporte implements Resumible
 {
 
         private static int $IVA = 21;
@@ -43,3 +43,10 @@ class Soporte
                 echo "<br>Titulo: ".$this->titulo."<br>Número: ".$this->numero."<br>Precio: ".$this->precio."€"."<br>Precio con IVA: ".$this->getPrecioConIva()."€";
         }
 }
+
+
+/* Al hacer esta clase abstracta imposibilitamos su instanciación, 
+de esta manera solo se prodrán crear objetos de sus clases "hijas" o "concretas".
+Es por eso que si ejecutásemos el script "index1.php" saltaría el error
+"Cannot instantiate abstract class Soporte".
+*/
