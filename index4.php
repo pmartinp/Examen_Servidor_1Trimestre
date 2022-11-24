@@ -1,8 +1,12 @@
 <?php
-//Includes: Faltan
+//Includes:
+include_once("Cliente.php");
+include_once("CintaVideo.php");
+include_once("Disco.php");
+include_once("Juego.php");
 
 //instanciamos un par de objetos cliente
-/*
+
 $cliente1 = new Cliente("Bruce Wayne", 23);
 $cliente2 = new Cliente("Clark Kent", 33);
 
@@ -29,7 +33,7 @@ $cliente1->alquilar($soporte4);
 //este soporte no lo tiene alquilado
 $cliente1->devolver(4);
 //devuelvo un soporte que sí que tiene alquilado
-$cliente1->devolver(2);
+$cliente1->devolver(23);
 //alquilo otro soporte
 $cliente1->alquilar($soporte4);
 //listo los elementos alquilados
