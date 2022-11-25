@@ -1,6 +1,11 @@
 <?php
+
 declare(strict_types=1);
-include_once("Resumible.php");
+
+namespace Examen_Servidor_1Trimestre\app;
+include_once("./autoload.php");
+//include_once("Resumible.php");
+
 abstract class Soporte implements Resumible
 {
 
@@ -40,7 +45,7 @@ abstract class Soporte implements Resumible
         // Muestra un resumen de los atributos de la clase
         public function muestraResumen()
         {
-                echo "<br>Titulo: ".$this->titulo."<br>Número: ".$this->numero."<br>Precio: ".$this->precio."€"."<br>Precio con IVA: ".$this->getPrecioConIva()."€";
+                echo "<br>Titulo: " . $this->titulo . "<br>Número: " . $this->numero . "<br>Precio: " . $this->precio . "€" . "<br>Precio con IVA: " . $this->getPrecioConIva() . "€";
         }
 }
 

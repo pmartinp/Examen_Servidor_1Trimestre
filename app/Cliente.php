@@ -1,11 +1,14 @@
 <?php
+
 declare(strict_types=1);
+
+namespace  Examen_Servidor_1Trimestre\app;
 
 class Cliente
 {
 
     private $soportesAlquilados = [];
-    private int $numSoportesAlquilados=0;
+    private int $numSoportesAlquilados = 0;
 
     public function __construct(
         public string $nombre,
@@ -43,33 +46,36 @@ class Cliente
     }
 
     // comprueba si es posible alquilar un soporte y si lo es lo añade al array soportesAlquilados (lo alquila)
-    public function alquilar(Soporte $s): bool{
-        if(!$this->tieneAlquilado($s) && $this->numSoportesAlquilados < $this->maxAlquilerConcurrente){
+    public function alquilar(Soporte $s)
+    {
+        if (!$this->tieneAlquilado($s) && $this->numSoportesAlquilados < $this->maxAlquilerConcurrente) {
             $this->numSoportesAlquilados++;
-            $this->soportesAlquilados[]=$s;
+            $this->soportesAlquilados[] = $s;
             echo "<br>Alquiler realizado con éxito";
-            
-            return true;
-        }else{
+
+            return $this;
+        } else {
             echo "<br>No se pudo realizar el alquiler";
-            return false;
+            return $this;
         }
     }
 
     // comprueba si el parámetro $s está alquilado o no
-    public function tieneAlquilado(Soporte $s): bool{
+    public function tieneAlquilado(Soporte $s): bool
+    {
         if (in_array($s, $this->soportesAlquilados)) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
 
     //
-    public function devolver(int $numSoporte): bool{
+    public function devolver(int $numSoporte): bool
+    {
         echo "<br>";
         foreach ($this->soportesAlquilados as $key => $obj) {
-            if($obj->getNumero()==$numSoporte){
+            if ($obj->getNumero() == $numSoporte) {
                 echo "<br>El soporte estaba alquilado";
                 $this->numSoportesAlquilados--;
                 unset($this->soportesAlquilados[$key]);
@@ -82,7 +88,8 @@ class Cliente
         return false;
     }
 
-    public function listaAlquileres(){
+    public function listaAlquileres()
+    {
         echo "<br>";
         foreach ($this->soportesAlquilados as $obj) {
             print_r($obj);
@@ -93,6 +100,6 @@ class Cliente
     // Muestra un resumen de los atributos de la clase
     public function muestraResumen()
     {
-            echo "<br>Nombre: ".$this->nombre."<br>Cantidad de alquileres: ".sizeof($this->soportesAlquilados);
+        echo "<br>Nombre: " . $this->nombre . "<br>Cantidad de alquileres: " . sizeof($this->soportesAlquilados);
     }
 }

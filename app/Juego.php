@@ -1,6 +1,10 @@
 <?php
+
 declare(strict_types=1);
-include_once("Soporte.php");
+
+namespace Examen_Servidor_1Trimestre\app;
+include_once("./autoload.php");
+//include_once("Soporte.php");
 
 class Juego extends Soporte
 {
@@ -19,12 +23,12 @@ class Juego extends Soporte
     // Muestra los jugadores mínimos y máximo
     public function muestraJugadoresPosibles()
     {
-        if($this->minNumJugadores == 1 && $this->maxNumJugadores == 1){
+        if ($this->minNumJugadores == 1 && $this->maxNumJugadores == 1) {
             echo "<br>Para un jugador";
-        }else if ($this->minNumJugadores == $this->maxNumJugadores && $this->maxNumJugadores > 1){
-            echo "<br>Para ".$this->minNumJugadores." jugadores";
-        }else{
-            echo "<br>De ".$this->minNumJugadores." a ".$this->maxNumJugadores." jugadores";
+        } else if ($this->minNumJugadores == $this->maxNumJugadores && $this->maxNumJugadores > 1) {
+            echo "<br>Para " . $this->minNumJugadores . " jugadores";
+        } else {
+            echo "<br>De " . $this->minNumJugadores . " a " . $this->maxNumJugadores . " jugadores";
         }
     }
 
@@ -32,7 +36,7 @@ class Juego extends Soporte
     public function muestraResumen()
     {
         parent::muestraResumen();
-        echo "<br>Consola: ".$this->consola;
+        echo "<br>Consola: " . $this->consola;
         $this->muestraJugadoresPosibles();
     }
 }

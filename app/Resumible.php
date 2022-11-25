@@ -1,5 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
+namespace Examen_Servidor_1Trimestre\app;
+
 interface Resumible
 {
     public function muestraResumen();

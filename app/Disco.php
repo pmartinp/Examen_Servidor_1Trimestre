@@ -1,15 +1,20 @@
 <?php
-declare(strict_types=1);
-include_once("Soporte.php");
 
-class CintaVideo extends Soporte
+declare(strict_types=1);
+
+namespace Examen_Servidor_1Trimestre\app;
+include_once("./autoload.php");
+//include_once("Soporte.php");
+
+class Disco extends Soporte
 {
 
     public function __construct(
         string $titulo,
         int $numero,
         float $precio,
-        public int $duracion
+        public string $idiomas,
+        private string $formatoPantalla
     ) {
         parent::__construct($titulo, $numero, $precio);
     }
@@ -18,6 +23,6 @@ class CintaVideo extends Soporte
     public function muestraResumen()
     {
         parent::muestraResumen();
-        echo "<br>Duración: ".$this->duracion."min";
+        echo "<br>Idiomas: " . $this->idiomas . "<br>Formato de Pantalla: " . $this->formatoPantalla;
     }
 }
