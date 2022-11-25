@@ -58,6 +58,7 @@ class Cliente
                 $this->soportesAlquilados[] = $s;
                 echo "<br>Alquiler realizado con éxito";
 
+                $s->alquilado=true;
                 return $this;
             } else {
                 throw new CupoSuperadoException();
@@ -87,6 +88,8 @@ class Cliente
                 $this->numSoportesAlquilados--;
                 unset($this->soportesAlquilados[$key]);
                 echo "<br>El soporte ha sido devuelto con éxito";
+
+                $obj->alquilado=true;
                 return $this;
             }
         }

@@ -21,10 +21,27 @@ class VideoClub
     private static int $numProductos = 0;
     private $socios = [];
     private static int $numSocios = 0;
+    private int $numProductosAlquilados;
+    private int $numTotalAlquileres;
 
     public function __construct(
         private string $nombre
     ) {
+    }
+
+    /**
+     * Get the value of numProductosAlquilados
+     */
+    public function getNumProductosAlquilados()
+    {
+        return $this->numProductosAlquilados;
+    }
+    /**
+     * Get the value of numTotalAlquileres
+     */
+    public function getNumTotalAlquileres()
+    {
+        return $this->numTotalAlquileres;
     }
 
     // incluye productos en el array $productos
@@ -88,11 +105,13 @@ class VideoClub
     // relaciona el método "alquilar" de la clase socio con un objeto heradado de soporte del array "$productos"
     public function alquilaSocioProducto($numeroCliente, $numeroSoporte)
     {
+        $saveCliente = "";
         try {
             // recorro el array "$socios"
             foreach ($this->socios as $key => $obj) {
                 //si el número de algún socio coincide con el parámetro "$numCliente" recorro el array "$productos"
                 if ($obj->getNumero() == $numeroCliente) {
+                    $saveCliente = $obj; // Asigno aquí un cliente a esta variable para poder lanzar posteriormente ClienteNoEncontradoException
                     try {
                         // recorro el array "$productos"
                         foreach ($this->productos as $value => $prod) {
@@ -109,8 +128,50 @@ class VideoClub
                     }
                 }
             }
-            // en el caso de que salgamos del foreach sin lanzar ninguna exception significará que no encontro ningún cliente
-            throw new ClienteNoEncontradoException();
+            // en el caso de que "$saveCliente" esté vacío lanzaremos la excepción
+            if ($saveCliente == "") {
+                throw new ClienteNoEncontradoException();
+            }
+        } catch (ClienteNoEncontradoException $e) {
+            echo $e->getMessage();
+        }
+        return $this;
+    }
+
+    // relaciona el método "alquilar" de la clase socio con varios objetos heradado de soporte del array "$productos"
+    public function alquilaSocioProductos(int $numeroSocio, array $numerosProductos)
+    {
+        $saveCliente = "";
+        try {
+            // recorro el array "$socios"
+            foreach ($this->socios as $key => $obj) {
+                //si el número de algún socio coincide con el parámetro "$numCliente" recorro el array "$productos"
+                if ($obj->getNumero() == $numeroSocio) {
+                    $saveCliente = $obj; // Asigno aquí un cliente a esta variable para poder lanzar posteriormente ClienteNoEncontradoException
+                    try {
+                        // recorro el array "$productos" para comprobar si hay algún soporte alquilado
+                        foreach ($numerosProductos as $prod) {
+                            // si el parámetro "$numeroSoporte" coincide con algún número de productos el socio alquilará el producto
+                            if ($prod->alquilado) {
+                                throw new SoporteYaAlquiladoException();
+                            }
+                        }
+                        // Si no hay ningún soporte alquilado recorro el array "$productos" para alquilar los productos
+                        foreach ($numerosProductos as $prod) {
+                            $obj->alquilar($prod);
+                        }
+                        return $this;
+                    } catch (SoporteYaAlquiladoException $e) {
+                        echo $e->getMessage();
+                    } catch (CupoSuperadoException $e) {
+                        echo $e->getMessage();
+                    }
+                }
+            }
+            // en el caso de que "$saveCliente" esté vacío lanzaremos la excepción
+            if ($saveCliente == "") {
+                throw new ClienteNoEncontradoException();
+            }
         } catch (ClienteNoEncontradoException $e) {
             echo $e->getMessage();
         }

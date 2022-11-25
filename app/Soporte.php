@@ -10,11 +10,12 @@ abstract class Soporte implements Resumible
 {
 
         private static int $IVA = 21;
+        public bool $alquilado = false;
 
         public function __construct(
                 public string $titulo,
                 protected int $numero,
-                private float $precio
+                private float $precio,
         ) {
         }
 
