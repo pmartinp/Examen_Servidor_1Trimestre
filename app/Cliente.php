@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace  Examen_Servidor_1Trimestre\app;
 
+use Examen_Servidor_1Trimestre\util\CupoSuperadoException;
+use Examen_Servidor_1Trimestre\util\SoporteNoEncontradoException;
+use Examen_Servidor_1Trimestre\util\SoporteYaAlquiladoException;
+
 class Cliente
 {
 
@@ -48,15 +52,18 @@ class Cliente
     // comprueba si es posible alquilar un soporte y si lo es lo añade al array soportesAlquilados (lo alquila)
     public function alquilar(Soporte $s)
     {
-        if (!$this->tieneAlquilado($s) && $this->numSoportesAlquilados < $this->maxAlquilerConcurrente) {
-            $this->numSoportesAlquilados++;
-            $this->soportesAlquilados[] = $s;
-            echo "<br>Alquiler realizado con éxito";
+        if (!$this->tieneAlquilado($s)) {
+            if ($this->numSoportesAlquilados < $this->maxAlquilerConcurrente) {
+                $this->numSoportesAlquilados++;
+                $this->soportesAlquilados[] = $s;
+                echo "<br>Alquiler realizado con éxito";
 
-            return $this;
+                return $this;
+            } else {
+                throw new CupoSuperadoException();
+            }
         } else {
-            echo "<br>No se pudo realizar el alquiler";
-            return $this;
+            throw new SoporteYaAlquiladoException();
         }
     }
 
@@ -71,7 +78,7 @@ class Cliente
     }
 
     //
-    public function devolver(int $numSoporte): bool
+    public function devolver(int $numSoporte)
     {
         echo "<br>";
         foreach ($this->soportesAlquilados as $key => $obj) {
@@ -80,12 +87,10 @@ class Cliente
                 $this->numSoportesAlquilados--;
                 unset($this->soportesAlquilados[$key]);
                 echo "<br>El soporte ha sido devuelto con éxito";
-                return true;
+                return $this;
             }
         }
-        echo "<br>El número de soporte no coincide con ningun alquiler vigente";
-        echo "<br>No se pudo devolver el soporte";
-        return false;
+        throw new SoporteNoEncontradoException();
     }
 
     public function listaAlquileres()

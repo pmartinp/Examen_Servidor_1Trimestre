@@ -3,6 +3,11 @@
 declare(strict_types=1);
 
 namespace Examen_Servidor_1Trimestre\app;
+
+use Examen_Servidor_1Trimestre\util\ClienteNoEncontradoException;
+use Examen_Servidor_1Trimestre\util\CupoSuperadoException;
+use Examen_Servidor_1Trimestre\util\SoporteYaAlquiladoException;
+
 include_once("./autoload.php");
 //include_once("CintaVideo.php");
 //include_once("Cliente.php");
@@ -83,19 +88,31 @@ class VideoClub
     // relaciona el método "alquilar" de la clase socio con un objeto heradado de soporte del array "$productos"
     public function alquilaSocioProducto($numeroCliente, $numeroSoporte)
     {
-        echo "<br>";
-        // recorro el array "$socios"
-        foreach ($this->socios as $key => $obj) {
-            //si el número de algún socio coincide con el parámetro "$numCliente" recorro el array "$productos"
-            if ($obj->getNumero() == $numeroCliente) {
-                // recorro el array "$productos"
-                foreach ($this->productos as $value => $prod) {
-                    // si el parámetro "$numeroSoporte" coincide con algún número de productos el socio alquilará el producto
-                    if ($prod->getNumero() == $numeroSoporte) {
-                        $obj->alquilar($prod);
+        try {
+            // recorro el array "$socios"
+            foreach ($this->socios as $key => $obj) {
+                //si el número de algún socio coincide con el parámetro "$numCliente" recorro el array "$productos"
+                if ($obj->getNumero() == $numeroCliente) {
+                    try {
+                        // recorro el array "$productos"
+                        foreach ($this->productos as $value => $prod) {
+                            // si el parámetro "$numeroSoporte" coincide con algún número de productos el socio alquilará el producto
+                            if ($prod->getNumero() == $numeroSoporte) {
+                                $obj->alquilar($prod);
+                                return $this;
+                            }
+                        }
+                    } catch (SoporteYaAlquiladoException $e) {
+                        echo $e->getMessage();
+                    } catch (CupoSuperadoException $e) {
+                        echo $e->getMessage();
                     }
                 }
             }
+            // en el caso de que salgamos del foreach sin lanzar ninguna exception significará que no encontro ningún cliente
+            throw new ClienteNoEncontradoException();
+        } catch (ClienteNoEncontradoException $e) {
+            echo $e->getMessage();
         }
         return $this;
     }
