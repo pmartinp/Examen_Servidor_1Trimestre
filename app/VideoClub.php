@@ -84,23 +84,23 @@ class VideoClub
     }
 
     // muestra todos los productos del videoclub
-    public function listarProductos()
+    public function listarProductos(): string
     {
-        echo "<br><br>";
+        $str="";
         foreach ($this->productos as $obj) {
-            print_r($obj);
-            echo "<br>";
+            $str .= "<li>".$obj->titulo."</li>";
         }
+        return $str;
     }
 
     // muestra todos los socios del videoclub
-    public function listarSocios()
+    public function listarSocios(): string
     {
-        echo "<br><br>";
+        $str="";
         foreach ($this->socios as $obj) {
-            print_r($obj);
-            echo "<br>";
+            $str .= "<li>".$obj->nombre."</li>";
         }
+        return $str;
     }
 
     // relaciona el método "alquilar" de la clase socio con un objeto heradado de soporte del array "$productos"
@@ -224,7 +224,7 @@ class VideoClub
                                 throw new SoporteNoEncontradoException();
                             }
                         }
-                        // Si no hay ningún soporte alquilado recorro el array "$productos" para devolver los productos
+                        // Si todos los soportes están alquilado recorro el array "$productos" para devolver los productos
                         foreach ($numerosProductos as $prod) {
                             $obj->devolver($prod->getNumero());
                         }

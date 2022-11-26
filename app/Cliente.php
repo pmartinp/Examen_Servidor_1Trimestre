@@ -13,6 +13,8 @@ class Cliente
 
     private $soportesAlquilados = [];
     private int $numSoportesAlquilados = 0;
+    private string $user;
+    private string $password;
 
     public function __construct(
         public string $nombre,
