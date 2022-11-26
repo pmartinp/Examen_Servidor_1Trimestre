@@ -6,6 +6,7 @@ namespace Examen_Servidor_1Trimestre\app;
 
 use Examen_Servidor_1Trimestre\util\ClienteNoEncontradoException;
 use Examen_Servidor_1Trimestre\util\CupoSuperadoException;
+use Examen_Servidor_1Trimestre\util\SoporteNoEncontradoException;
 use Examen_Servidor_1Trimestre\util\SoporteYaAlquiladoException;
 
 include_once("./autoload.php");
@@ -17,7 +18,7 @@ include_once("./autoload.php");
 class VideoClub
 {
 
-    private $productos = [];
+    public $productos = [];
     private static int $numProductos = 0;
     private $socios = [];
     private static int $numSocios = 0;
@@ -103,7 +104,7 @@ class VideoClub
     }
 
     // relaciona el método "alquilar" de la clase socio con un objeto heradado de soporte del array "$productos"
-    public function alquilaSocioProducto($numeroCliente, $numeroSoporte)
+    public function alquilaSocioProducto(int $numeroCliente, int $numeroSoporte)
     {
         $saveCliente = "";
         try {
@@ -164,6 +165,71 @@ class VideoClub
                     } catch (SoporteYaAlquiladoException $e) {
                         echo $e->getMessage();
                     } catch (CupoSuperadoException $e) {
+                        echo $e->getMessage();
+                    }
+                }
+            }
+            // en el caso de que "$saveCliente" esté vacío lanzaremos la excepción
+            if ($saveCliente == "") {
+                throw new ClienteNoEncontradoException();
+            }
+        } catch (ClienteNoEncontradoException $e) {
+            echo $e->getMessage();
+        }
+        return $this;
+    }
+
+    // relaciona el método "devolver" de la clase socio con un objeto heradado de soporte del array "$productos"
+    public function devolverSocioProducto(int $numeroCliente, int $numeroSoporte)
+    {
+        $saveCliente = "";
+        try {
+            // recorro el array "$socios"
+            foreach ($this->socios as $key => $obj) {
+                //si el número de algún socio coincide con el parámetro "$numeroCliente" intento devolver el soporte
+                if ($obj->getNumero() == $numeroCliente) {
+                    $saveCliente = $obj; // Asigno aquí un cliente a esta variable para poder lanzar posteriormente ClienteNoEncontradoException
+                    try {
+                        $obj->devolver($numeroSoporte);
+                    } catch (SoporteNoEncontradoException $e) {
+                        echo $e->getMessage();
+                    }
+                }
+            }
+            // en el caso de que "$saveCliente" esté vacío lanzaremos la excepción
+            if ($saveCliente == "") {
+                throw new ClienteNoEncontradoException();
+            }
+        } catch (ClienteNoEncontradoException $e) {
+            echo $e->getMessage();
+        }
+        return $this;
+    }
+
+    // relaciona el método "devolver" de la clase socio con varios objetos heradado de soporte del array "$productos"
+    public function devolverSocioProductos(int $numeroSocio, array $numerosProductos)
+    {
+        $saveCliente = "";
+        try {
+            // recorro el array "$socios"
+            foreach ($this->socios as $key => $obj) {
+                //si el número de algún socio coincide con el parámetro "$numCliente" recorro el array "$productos"
+                if ($obj->getNumero() == $numeroSocio) {
+                    $saveCliente = $obj; // Asigno aquí un cliente a esta variable para poder lanzar posteriormente ClienteNoEncontradoException
+                    try {
+                        // recorro el array "$productos" para comprobar si hay algún soporte alquilado
+                        foreach ($numerosProductos as $prod) {
+                            // si el socio no tiene alquilado algún producto de los que trata de devovler lanzará SoporteNoEncontradoException
+                            if (!$obj->tieneAlquilado($prod)) {
+                                throw new SoporteNoEncontradoException();
+                            }
+                        }
+                        // Si no hay ningún soporte alquilado recorro el array "$productos" para devolver los productos
+                        foreach ($numerosProductos as $prod) {
+                            $obj->devolver($prod->getNumero());
+                        }
+                        return $this;
+                    } catch (SoporteNoEncontradoException $e) {
                         echo $e->getMessage();
                     }
                 }

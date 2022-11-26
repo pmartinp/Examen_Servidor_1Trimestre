@@ -89,7 +89,7 @@ class Cliente
                 unset($this->soportesAlquilados[$key]);
                 echo "<br>El soporte ha sido devuelto con éxito";
 
-                $obj->alquilado=true;
+                $obj->alquilado=false;
                 return $this;
             }
         }
