@@ -17,5 +17,3 @@ $vc->incluirCintaVideo("El nombre de la Rosa", 1.5, 140);
 //voy a crear algunos socios
 $vc->incluirSocio("Amancio Ortega");
 $vc->incluirSocio("Pablo Picasso", 2);
-
-echo $vc->listarSocios();
