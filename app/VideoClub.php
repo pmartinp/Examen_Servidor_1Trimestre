@@ -98,7 +98,7 @@ class VideoClub
     {
         $str="";
         foreach ($this->socios as $obj) {
-            $str .= "<li>".$obj->nombre."</li>";
+            $str .= "<li>".$obj->nombre."-------".$obj->user."</li>";
         }
         return $str;
     }

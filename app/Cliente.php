@@ -13,14 +13,15 @@ class Cliente
 
     private $soportesAlquilados = [];
     private int $numSoportesAlquilados = 0;
-    private string $user;
-    private string $password;
+    public string $user;
 
     public function __construct(
         public string $nombre,
         private int $numero,
-        private int $maxAlquilerConcurrente = 3
+        private int $maxAlquilerConcurrente = 3,
+        private string $password = "usuario"
     ) {
+        $this->setUser();
     }
 
 
@@ -49,6 +50,17 @@ class Cliente
     public function getNumSoportesAlquilados()
     {
         return $this->numSoportesAlquilados;
+    }
+    /**
+     * Set the value of user
+     *
+     * @return  self
+     */
+    public function setUser()
+    {
+        $this->user = $this->nombre.$this->getNumero();
+
+        return $this;
     }
 
     // comprueba si es posible alquilar un soporte y si lo es lo añade al array soportesAlquilados (lo alquila)
