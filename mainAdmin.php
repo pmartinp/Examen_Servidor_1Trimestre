@@ -1,3 +1,6 @@
+<?php
+session_start()
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,10 +14,6 @@
 </head>
 
 <body>
-
-    <?php
-    session_start()
-    ?>
 
     <div class="container p-5 justify-content-center d-grid">
         <?php
